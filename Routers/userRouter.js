@@ -21,6 +21,15 @@ userRouter.post("/signup",validateInfo,appController.addUser);
 
 userRouter.get("/login",appController.logInForm)
 userRouter.post("/login",validateLogIn,appController.logIn)
+userRouter.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
 
 
 module.exports= userRouter;

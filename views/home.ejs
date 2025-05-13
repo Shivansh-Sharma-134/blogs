@@ -7,6 +7,9 @@
 <body>
      <% if(user){%>
         <h3>Welcome <%= user.firstname%></h3>
+        <a href="/users/profile">
+            <button>Profile</button>
+        </a>
         <%}%>
     <%blogs.forEach((blog)=>{%>
     <div>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
+    <form action="/users/membershipapply" method="post">
+        <label for="membershipCode">Please input the secret code to become a member!!</label>
+        <input type="password" placeholder="Passcode" name="membershipCode" value="<%= old?.value || ''%>">
+        <%if(errors?.membershipCode){%>
+            <p style="color: red;"><%= errors.membershipCode%> </p>
+            <%}%>
+
+            <button type="submit">submit</button>
+    </form>
+</body>
+</html>

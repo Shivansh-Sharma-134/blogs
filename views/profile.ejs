@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Hello <%= user.firstname%></h1>
+    <%if(user.membership){%>
+        <h4>Membership Active </h4>
+        <%}else{%>
+        <a href="/users/membershipapply">
+            <button>Apply for membership</button>
+        </a>
+        <%}%>
+     <%if(user.admin){%>
+        <h4> Admin </h4>
+        <%}else{%>
+             <a href="/users/adminapply">
+            <button>Apply to become an admin</button>
+        </a>
+        <%}%>
+        <p>Name: <%= user.firstname%> <%= user.lastname%></p>
+        <p>username: <%= user.username%></p>
+        <p>email: <%= user.email%></p>
+        <p>age: <%= user.age%></p>
+
+        <h1>Your Blogs</h1>
+        <%blogs.forEach((blog)=>{%>
+        <div>
+            <h4><%= blog.title%></h4>
+            <p><%= blog.text%></p>
+            <p>Author: <%= users.find(u=> u.id === blog.userid).name%></p>
+            <p>Created: <%= new Date(blog.created).toLocaleString() %></p>
+            <br>
+            <a href="/blogs/delete/<%= blog.id%>">
+                <button style="color: red;">Delete</button>
+            </a>
+    </div>
+    <%})%>
+
+</body>
+</html>

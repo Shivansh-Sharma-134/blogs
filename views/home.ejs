@@ -19,9 +19,11 @@
             <p>Author: <%= users.find(u=> u.id === blog.userid).name%></p>
             <p>Created: <%= new Date(blog.created).toLocaleString() %></p>
             <br>
+            <%if(user.admin){%>
             <a href="/blogs/delete/<%= blog.id%>">
                 <button style="color: red;">Delete</button>
             </a>
+            <%}%>
         <%}%>
     </div>
     <%})%>

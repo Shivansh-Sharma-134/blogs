@@ -16,6 +16,14 @@ const validateLogIn = [
     body("username").trim().isLength({min: 1}).withMessage('Cannot be empty'),
     body("password").trim().isLength({min: 1}).withMessage('Cannot be empty'),
 ]
+
+const validateMembership =[
+    body("membershipCode").equals(process.env.MEMBER).withMessage("Wrong Passcode")
+]
+
+const validateAdmin =[
+    body("adminCode").equals(process.env.ADMIN).withMessage("Wrong Passcode")
+]
 userRouter.get("/signup",appController.signupForm);
 userRouter.post("/signup",validateInfo,appController.addUser);
 
@@ -30,6 +38,14 @@ userRouter.get("/logout", (req, res, next) => {
   });
 });
 
+
+userRouter.get("/profile", appController.profile);
+
+userRouter.get("/membershipapply", appController.applyMembership);
+userRouter.post("/membershipapply",validateMembership,appController.membershipCheck )
+
+userRouter.get("/adminapply", appController.applyAdmin);
+userRouter.post("/adminapply",validateAdmin,appController.adminCheck )
 
 
 module.exports= userRouter;

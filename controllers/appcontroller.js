@@ -76,10 +76,83 @@ async function logIn(req,res,next) {
     })(req,res,next)
 };
 
+
+async function profile(req,res) {
+    const blogs = await db.getBlogsByUser(req.user.id)
+    res.render("profile",{title:"user profile",user: req.user,blogs})
+}
+
+async function applyMembership(req,res) {
+    res.render("membershipForm",{
+        title: "membership Form",
+        old:{},
+        errors:{}
+    });
+}
+
+async function membershipCheck(req,res) {
+        const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        const errArray = errors.array();
+        const errorMap = {}
+        errArray.forEach(err => {
+            errorMap[err.path] = err.msg;
+        })
+        console.log(errorMap);
+        
+        return res.status(400).render("membershipForm",{
+            title: "membership Form",
+            errors: errorMap,
+            old: req.body
+        })
+    }
+
+    await db.changeMembership(req.user.id);
+    res.redirect("/users/profile")
+}
+
+
+
+async function applyAdmin(req,res) {
+    res.render("adminForm",{
+        title: "Admin Form",
+        old:{},
+        errors:{}
+    });
+}
+
+async function adminCheck(req,res) {
+        const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        const errArray = errors.array();
+        const errorMap = {}
+        errArray.forEach(err => {
+            errorMap[err.path] = err.msg;
+        })
+        console.log(errorMap);
+        
+        return res.status(400).render("adminForm",{
+            title: "Admin Form",
+            errors: errorMap,
+            old: req.body
+        })
+    }
+
+    await db.changeAdmin(req.user.id);
+    res.redirect("/users/profile")
+}
+
 module.exports={
     renderHomepage,
     signupForm,
     addUser,
     logInForm,
-    logIn
+    logIn,
+    profile,
+    applyMembership,
+    membershipCheck,
+    applyAdmin,
+    adminCheck
 }

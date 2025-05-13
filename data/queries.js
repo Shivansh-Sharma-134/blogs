@@ -24,12 +24,25 @@ async function getUserById(id) {
     return rows[0];
 }
 
+async function getBlogsByUser(id) {
+    const {rows} = await pool.query("SELECT * FROM blogs WHERE userid = $1 ORDER BY id ASC",[id]);
+    return rows;
+}
 
+async function changeMembership(id) {
+    await pool.query("UPDATE users SET membership = true WHERE id = $1",[id])
+}
 
+async function changeAdmin(id) {
+    await pool.query("UPDATE users SET admin = true WHERE id = $1",[id])
+}
 module.exports ={
     getAllBlogs,
     addUser,
     getUser,
     getUserById,
     getAllUsers,
+    getBlogsByUser,
+    changeMembership,
+    changeAdmin,
 }

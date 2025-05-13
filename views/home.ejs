@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <%blogs.forEach((blog)=>{%>
+    <div>
+            <h4><%= blog.title%></h4>
+            <p><%= blog.text%></p>
+    </div>
+    <%})%>
+    <a href="/users/signup">
+        <button>Sign up</button>
+    </a>
+</body>
+</html>

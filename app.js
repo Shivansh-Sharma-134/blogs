@@ -9,7 +9,8 @@ require("dotenv").config();
 const app = express();
 
 app.use(express.urlencoded({extended: true}));
-const appController = require("./controllers/appcontroller")
+const appController = require("./controllers/appcontroller");
+const blogsRouter = require("./Routers/blogsRouter");
 
 app.set('views',path.join(__dirname,"views"));
 app.set("view engine","ejs");
@@ -40,6 +41,7 @@ passport.deserializeUser(async (id,done)=>{
 })
 app.get("/",appController.renderHomepage);
 app.use("/users",userRouter);
+app.use("/blogs",blogsRouter)
 
 const PORT = 3000;
 app.listen(PORT, ()=> console.log("listening"));

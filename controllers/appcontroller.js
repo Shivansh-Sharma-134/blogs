@@ -79,6 +79,7 @@ async function logIn(req,res,next) {
 
 async function profile(req,res) {
     const blogs = await db.getBlogsByUser(req.user.id)
+    
     res.render("profile",{title:"user profile",user: req.user,blogs})
 }
 

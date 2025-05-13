@@ -30,8 +30,7 @@
         <div>
             <h4><%= blog.title%></h4>
             <p><%= blog.text%></p>
-            <p>Author: <%= users.find(u=> u.id === blog.userid).name%></p>
-            <p>Created: <%= new Date(blog.created).toLocaleString() %></p>
+            <p>Created: <%= new Date(blog.created).toLocaleDateString() %></p>
             <br>
             <a href="/blogs/delete/<%= blog.id%>">
                 <button style="color: red;">Delete</button>

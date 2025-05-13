@@ -1,3 +1,4 @@
+const { use } = require("passport");
 const pool = require("./pool");
 
 async function getAllBlogs() {
@@ -36,6 +37,14 @@ async function changeMembership(id) {
 async function changeAdmin(id) {
     await pool.query("UPDATE users SET admin = true WHERE id = $1",[id])
 }
+
+async function addNewBlog(title,text,userid) {
+    await pool.query("INSERT INTO blogs (title,text,userid) VALUES ($1,$2,$3)",[title,text,userid]);
+}
+
+async function deleteBlog(id) {
+    await pool.query("DELETE FROM blogs WHERE id = $1",[id]);
+}
 module.exports ={
     getAllBlogs,
     addUser,
@@ -45,4 +54,6 @@ module.exports ={
     getBlogsByUser,
     changeMembership,
     changeAdmin,
+    addNewBlog,
+    deleteBlog,
 }

@@ -5,14 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+     <% if(user){%>
+        <h3>Welcome <%= user.firstname%></h3>
+        <%}%>
     <%blogs.forEach((blog)=>{%>
     <div>
             <h4><%= blog.title%></h4>
             <p><%= blog.text%></p>
+            <% if(user){%>
+            <p>Author: <%= users.find(u=> u.id === blog.userid).name%></p>
+            <p>Created: <%= new Date(blog.created).toLocaleString() %></p>
+            <br>
+            <a href="/blogs/delete/<%blogs.id%>">
+                <button style="color: red;">Delete</button>
+            </a>
+        <%}%>
     </div>
     <%})%>
+
+    <% if(user){%>
+        <a href="/users/logout">
+            <button>Log Out</button>
+        </a>
+        <%}else{%>
     <a href="/users/signup">
         <button>Sign up</button>
     </a>
+    <a href="/users/login">
+        <button>Log In</button>
+    </a>
+    <%}%>
 </body>
 </html>

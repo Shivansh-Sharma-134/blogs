@@ -1,12 +1,17 @@
 const { title } = require("process");
 const db = require("../data/queries");
 const {validationResult} = require("express-validator");
+const passport = require("passport");
 
 async function renderHomepage(req,res) {
     const blogs = await db.getAllBlogs();
-    console.log(blogs);
+    const users = await db.getAllUsers();
+    console.log(req.user);
     
-    res.render("home",{title:"homepage", blogs});
+    res.render("home",{title:"homepage", blogs,
+        user: req.user,
+        users
+    });
 }
 
 async function signupForm(req,res) {
@@ -41,10 +46,13 @@ async function addUser(req,res) {
 }
 
 async function logInForm(req,res) {
-    res.render("log-in-form")
+    res.render("log-in-form",{title: "Log in form",
+        old:{},
+        errors:{}
+    })
 }
 
-async function logIn(req,res) {
+async function logIn(req,res,next) {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -55,18 +63,18 @@ async function logIn(req,res) {
         })
         console.log(errorMap);
         
-        return res.status(400).render("sign-up-form",{
-            title: "sign up form",
+        return res.status(400).render("log-in-form",{
+            title: "Log in form",
             errors: errorMap,
             old: req.body
         })
     }
-    const {firstname,lastname,username,email,password,age} = req.body
-
-    await db.addUser(firstname,lastname,username,email,password,age);
-
-    res.redirect("/");
-}
+    
+    passport.authenticate("local",{
+        successRedirect: "/",
+        failureRedirect: "/users/login"
+    })(req,res,next)
+};
 
 module.exports={
     renderHomepage,

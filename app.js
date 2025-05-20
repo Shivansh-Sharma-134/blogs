@@ -7,6 +7,11 @@ const userRouter = require("./Routers/userRouter");
 const db = require("./data/queries");
 require("dotenv").config();
 const app = express();
+const cors = require("cors")
+
+app.use(cors({
+    origin: process.env.ORIGIN
+}))
 
 app.use(express.urlencoded({extended: true}));
 const appController = require("./controllers/appcontroller");
@@ -39,9 +44,9 @@ passport.deserializeUser(async (id,done)=>{
     const user = await db.getUserById(id);
     done(null,user);
 })
-app.get("/",appController.renderHomepage);
-app.use("/users",userRouter);
-app.use("/blogs",blogsRouter)
+app.get("/api/homepage",appController.renderHomepage);
+app.use("/api/users",userRouter);
+app.use("/api/blogs",blogsRouter)
 
 const PORT = 3000;
 app.listen(PORT, ()=> console.log("listening"));

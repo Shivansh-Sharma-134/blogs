@@ -3,7 +3,7 @@ const db = require("../data/queries");
 const {validationResult} = require("express-validator");
 const passport = require("passport");
 
-async function renderHomepage(req,res) {
+/*async function renderHomepage(req,res) {
     const blogs = await db.getAllBlogs();
     const users = await db.getAllUsers();
     console.log(req.user);
@@ -12,6 +12,22 @@ async function renderHomepage(req,res) {
         user: req.user,
         users
     });
+}*/
+
+async function renderHomepage(req,res) {
+   try{
+     const blogs = await db.getAllBlogs();
+    const users = await db.getAllUsers();
+    console.log(req.user);
+    
+    res.json({
+        user:req.user || null,
+        blogs,
+        users
+    });
+} catch(err){
+    res.status(500).json({error: "Server Error"});
+}
 }
 
 async function signupForm(req,res) {

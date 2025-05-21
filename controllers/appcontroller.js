@@ -79,16 +79,20 @@ async function logIn(req,res,next) {
         })
         console.log(errorMap);
         
-        return res.status(400).render("log-in-form",{
-            title: "Log in form",
+        return res.status(400).json({
             errors: errorMap,
-            old: req.body
         })
     }
     
-    passport.authenticate("local",{
-        successRedirect: "/",
-        failureRedirect: "/users/login"
+    passport.authenticate("local",(err,user,info)=>{
+        if(err || !user){
+            return res.status(500).json({errors:{form:"invalid credentials"}});
+        }
+        req.login(user,err =>{
+            if (err) return res.status(500).json({ errors: { form: "Login error" } });
+            return res.json({ success: true });
+        });
+
     })(req,res,next)
 };
 

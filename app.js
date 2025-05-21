@@ -10,8 +10,9 @@ const app = express();
 const cors = require("cors")
 
 app.use(cors({
-    origin: process.env.ORIGIN
-}))
+    origin: process.env.ORIGIN,
+    credentials: true,
+}));
 
 app.use(express.urlencoded({extended: true}));
 const appController = require("./controllers/appcontroller");

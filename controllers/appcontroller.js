@@ -48,17 +48,15 @@ async function addUser(req,res) {
         })
         console.log(errorMap);
         
-        return res.status(400).render("sign-up-form",{
-            title: "sign up form",
+        return res.status(400).json({
             errors: errorMap,
-            old: req.body
         })
     }
     const {firstname,lastname,username,email,password,age} = req.body
 
     await db.addUser(firstname,lastname,username,email,password,age);
 
-    res.redirect("/");
+    res.json({success: true});
 }
 
 async function logInForm(req,res) {

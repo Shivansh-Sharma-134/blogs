@@ -34,7 +34,7 @@ userRouter.get("/logout", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.json({success: true});
   });
 });
 

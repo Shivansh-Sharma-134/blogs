@@ -14,8 +14,9 @@ async function addNewBlog(req,res) {
 }
 
 async function deleteBlog(req,res) {
-    await db.deleteBlog(req.params.blogId);
-    res.redirect("/")
+    const {blogId} = req.body;
+    await db.deleteBlog(blogId);
+    res.json({success: true});
 }
 
 module.exports = {

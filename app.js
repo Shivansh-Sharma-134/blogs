@@ -14,6 +14,8 @@ app.use(cors({
     credentials: true,
 }));
 
+app.use(express.json());
+
 app.use(express.urlencoded({extended: true}));
 const appController = require("./controllers/appcontroller");
 const blogsRouter = require("./Routers/blogsRouter");

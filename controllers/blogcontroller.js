@@ -10,7 +10,7 @@ async function addNewBlogForm(req,res) {
 async function addNewBlog(req,res) {
     const {title,blogText,}=req.body;
     await db.addNewBlog(title,blogText,req.user.id);
-    res.redirect("/");
+    res.json({success: true});
 }
 
 async function deleteBlog(req,res) {

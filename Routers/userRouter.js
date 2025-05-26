@@ -18,7 +18,7 @@ const validateLogIn = [
 ]
 
 const validateMembership =[
-    body("membershipCode").equals(process.env.MEMBER).withMessage("Wrong Passcode")
+    body("key").equals(process.env.MEMBER).withMessage("Wrong Passcode")
 ]
 
 const validateAdmin =[

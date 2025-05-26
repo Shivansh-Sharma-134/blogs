@@ -120,15 +120,13 @@ async function membershipCheck(req,res) {
         })
         console.log(errorMap);
         
-        return res.status(400).render("membershipForm",{
-            title: "membership Form",
+        return res.status(400).json({
             errors: errorMap,
-            old: req.body
         })
     }
 
     await db.changeMembership(req.user.id);
-    res.redirect("/users/profile")
+    res.json({success: true})
 }
 
 

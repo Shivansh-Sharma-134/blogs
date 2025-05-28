@@ -1,10 +1,12 @@
 const express = require("express");
 const path = require("node:path");
 const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const userRouter = require("./Routers/userRouter");
 const db = require("./data/queries");
+const pool = require("./pool");
 require("dotenv").config();
 const app = express();
 const cors = require("cors")
@@ -23,7 +25,11 @@ const blogsRouter = require("./Routers/blogsRouter");
 app.set('views',path.join(__dirname,"views"));
 app.set("view engine","ejs");
 
-app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+app.use(session({ store: new pgSession({
+    pool: pool,
+    tableName: 'session'
+}), secret: process.env.SECRET, resave: false, saveUninitialized: false, cookie: {
+    maxAge: 1000 * 60 * 60 * 24} }));
 app.use(passport.session());
 
 passport.use(

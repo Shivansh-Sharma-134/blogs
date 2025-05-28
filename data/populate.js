@@ -25,9 +25,12 @@ FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS session (
-    sid varchar PRIMARY KEY,
-    sess json NOT NULL,'expire timestamp NOT NULL
+  sid VARCHAR NOT NULL PRIMARY KEY,
+  sess JSON NOT NULL,
+  expire TIMESTAMP NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON session (expire);
 `;
 
 

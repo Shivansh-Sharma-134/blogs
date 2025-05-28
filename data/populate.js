@@ -24,15 +24,10 @@ created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (userid) REFERENCES users(id)
 );
 
-INSERT INTO users (firstname,lastname,username,email,password,age,membership,admin)
-VALUES
-    ('Shiv','Sharma','shiv134','shiv@email.com','shiv134',24,true,true),
-    ('Jake','Smith','jake123','jake@email.com','master',26,true,false);
-
-
-INSERT INTO blogs (title,text,userid)
-VALUES
-    ('First blog for the webapp','this is first blog as a test',1);
+CREATE TABLE IF NOT EXISTS session (
+    sid varchar PRIMARY KEY,
+    sess json NOT NULL,'expire timestamp NOT NULL
+);
 `;
 
 

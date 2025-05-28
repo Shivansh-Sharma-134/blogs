@@ -6,7 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const userRouter = require("./Routers/userRouter");
 const db = require("./data/queries");
-const pool = require("./pool");
+const pool = require("./data/pool");
 require("dotenv").config();
 const app = express();
 const cors = require("cors")

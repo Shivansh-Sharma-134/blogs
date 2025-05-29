@@ -7,7 +7,8 @@ const { body, validationResult } = require("express-validator");
 
 blogsRouter.get("/addnewblog",blogController.addNewBlogForm);
 blogsRouter.post("/addnewblog",blogController.addNewBlog);
-blogsRouter.post("/delete",blogController.deleteBlog)
+blogsRouter.post("/delete",blogController.deleteBlog);
+blogsRouter.post("/like",blogController.addLike );
 
 
 module.exports = blogsRouter;

@@ -33,16 +33,26 @@ CREATE TABLE IF NOT EXISTS session (
 CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON session (expire);
 `;
 
+const DEV = `
+ALTER TABLE blogs ADD COLUMN likes INTEGER NOT NULL DEFAULT 0;  
+
+CREATE TABLE likes (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  userid INT,
+  blogid INT
+)
+`;
 
 async function main() {
     console.log("seeding")
     const client= new Client({
-         connectionString: process.env.DATABASE_URL,
-         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+         /*connectionString: process.env.DATABASE_URL,
+         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,*/
+         connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
     })
 
     await client.connect();
-    await client.query(SQL);
+    await client.query(DEV);
     await client.end();
     console.log('done')
 }

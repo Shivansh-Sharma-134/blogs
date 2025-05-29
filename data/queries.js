@@ -45,6 +45,15 @@ async function addNewBlog(title,text,userid) {
 async function deleteBlog(id) {
     await pool.query("DELETE FROM blogs WHERE id = $1",[id]);
 }
+
+async function getAllLikes() {
+    const {rows} = await pool.query("SELECT * FROM likes ORDER BY id ASC")
+    return rows;
+}
+
+async function addLike(userid,blogid) {
+    await pool.query("INSERT INTO likes (userid,blogid) VALUES ($1,$2)",[userid,blogid]);
+}
 module.exports ={
     getAllBlogs,
     addUser,
@@ -56,4 +65,6 @@ module.exports ={
     changeAdmin,
     addNewBlog,
     deleteBlog,
+    addLike,
+    getAllLikes
 }

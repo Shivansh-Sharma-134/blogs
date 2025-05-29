@@ -19,8 +19,19 @@ async function deleteBlog(req,res) {
     res.json({success: true});
 }
 
+async function addLike(req,res) {
+    try{
+        const {userid,blogid} = req.body;
+        db.addLike(userid,blogid);
+        res.json({success: true});
+    } catch(error) {
+        res.status(500).json({error: "Server Error"});
+    }
+}
+
 module.exports = {
     addNewBlogForm,
     addNewBlog,
-    deleteBlog
+    deleteBlog,
+    addLike
 }

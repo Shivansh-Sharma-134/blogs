@@ -27,12 +27,12 @@ app.set("view engine","ejs");
 
 app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
 
-/*app.use(session({ store: new pgSession({
+app.use(session({ store: new pgSession({
     pool: pool,
     tableName: 'session'
 }), secret: process.env.SECRET, resave: false, saveUninitialized: false, cookie: {
-    maxAge: 1000 * 60 * 60 * 24} }));*/
-app.use(passport.session());
+    maxAge: 1000 * 60 * 60 * 24} }));
+//app.use(passport.session());
 
 passport.use(
     new LocalStrategy(async (username,password,done)=>{

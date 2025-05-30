@@ -61,6 +61,26 @@ async function removeLike(userid,blogid) {
     await pool.query("DELETE FROM likes WHERE userid = $1 AND blogid = $2",[userid,blogid]);
     await pool.query("UPDATE blogs SET likes = likes - 1 WHERE id = $1", [blogid]);
 }
+
+async function deleteProfile(userid) {
+    const client = await pool.connect();
+    try {
+    await client.query("BEGIN");
+
+    await client.query("DELETE FROM likes WHERE userid = $1", [userid]);
+    await client.query("DELETE FROM blogs WHERE userid = $1", [userid]);
+    await client.query("DELETE FROM users WHERE id = $1", [userid]);
+
+    await client.query("COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Failed to delete profile:", err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports ={
     getAllBlogs,
     addUser,
@@ -75,4 +95,5 @@ module.exports ={
     addLike,
     getAllLikes,
     removeLike,
+    deleteProfile,
 }

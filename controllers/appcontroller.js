@@ -163,6 +163,21 @@ async function adminCheck(req,res) {
     res.redirect("/users/profile")
 }
 
+async function deleteProfile(req,res,next) {
+    const userid = req.user.id;
+    try{
+    req.logout((err) => {
+    if (err) {
+      return next(err);
+    }});
+
+    await db.deleteProfile(userid);
+    res.json({success: true});
+}catch(err){
+    next(err);
+}
+}
+
 module.exports={
     renderHomepage,
     signupForm,
@@ -173,5 +188,6 @@ module.exports={
     applyMembership,
     membershipCheck,
     applyAdmin,
-    adminCheck
+    adminCheck,
+    deleteProfile,
 }

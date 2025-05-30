@@ -40,6 +40,7 @@ userRouter.get("/logout", (req, res, next) => {
 
 
 userRouter.get("/profile", appController.profile);
+userRouter.delete("/deleteprofile", appController.deleteProfile);
 
 userRouter.get("/membershipapply", appController.applyMembership);
 userRouter.post("/membershipapply",validateMembership,appController.membershipCheck )

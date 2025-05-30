@@ -53,6 +53,13 @@ async function getAllLikes() {
 
 async function addLike(userid,blogid) {
     await pool.query("INSERT INTO likes (userid,blogid) VALUES ($1,$2)",[userid,blogid]);
+    const newLikes = await pool.query("SELECT likes FROM blogs WHERE id = $1",[blogid]);
+    newLikes++;
+    await pool.query("UPDATE blogs SET likes = $1 WHERE id = $2",[newLikes,blogid]);
+}
+
+async function removeLike(userid,blogid) {
+    await pool.query("DELETE FROM likes WHERE userid = $1 AND blogid = $2",[userid,blogid])
 }
 module.exports ={
     getAllBlogs,
@@ -66,5 +73,6 @@ module.exports ={
     addNewBlog,
     deleteBlog,
     addLike,
-    getAllLikes
+    getAllLikes,
+    removeLike,
 }

@@ -9,6 +9,6 @@ blogsRouter.get("/addnewblog",blogController.addNewBlogForm);
 blogsRouter.post("/addnewblog",blogController.addNewBlog);
 blogsRouter.post("/delete",blogController.deleteBlog);
 blogsRouter.post("/like",blogController.addLike );
-
+blogsRouter.post("/dislike",blogController.removeLike );
 
 module.exports = blogsRouter;

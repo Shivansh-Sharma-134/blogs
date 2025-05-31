@@ -47,13 +47,13 @@ const DEV = `
 async function main() {
     console.log("seeding")
     const client= new Client({
-         /*connectionString: process.env.DATABASE_URL,
-         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,*/
-         connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
+         connectionString: process.env.DATABASE_URL,
+         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+         //connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
     })
 
     await client.connect();
-    await client.query(DEV);
+    await client.query(SQL);
     await client.end();
     console.log('done')
 }

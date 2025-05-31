@@ -25,13 +25,13 @@ const bcrypt = require('bcryptjs');
 app.set('views',path.join(__dirname,"views"));
 app.set("view engine","ejs");
 
-app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+//app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
 
-/*app.use(session({ store: new pgSession({
+app.use(session({ store: new pgSession({
     pool: pool,
     tableName: 'session'
 }), secret: process.env.SECRET, resave: false, saveUninitialized: false, cookie: {
-    maxAge: 1000 * 60 * 60 * 24} }));*/
+    maxAge: 1000 * 60 * 60 * 24} }));
 app.use(passport.session());
 
 passport.use(

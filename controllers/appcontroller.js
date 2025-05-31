@@ -4,17 +4,6 @@ const {validationResult} = require("express-validator");
 const passport = require("passport");
 const bcrypt = require('bcryptjs');
 
-/*async function renderHomepage(req,res) {
-    const blogs = await db.getAllBlogs();
-    const users = await db.getAllUsers();
-    console.log(req.user);
-    
-    res.render("home",{title:"homepage", blogs,
-        user: req.user,
-        users
-    });
-}*/
-
 async function renderHomepage(req,res) {
    try{
      const blogs = await db.getAllBlogs();

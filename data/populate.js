@@ -21,8 +21,8 @@ title VARCHAR(255) NOT NULL,
 text VARCHAR(500) NOT NULL,
 userid INT,
 created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-likes INTEGER NOT NULL DEFAULT 0;
-FOREIGN KEY (userid) REFERENCES users(id),
+likes INTEGER NOT NULL DEFAULT 0,
+FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS likes (
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS likes (
 );
 
 CREATE TABLE IF NOT EXISTS session (
-  sid VARCHAR NOT NULL PRIMARY KEY,
+  sid VARCHAR(255) NOT NULL PRIMARY KEY,
   sess JSON NOT NULL,
   expire TIMESTAMP NOT NULL
 );
@@ -47,9 +47,9 @@ const DEV = `
 async function main() {
     console.log("seeding")
     const client= new Client({
-         connectionString: process.env.DATABASE_URL,
-         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-         //connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
+         /*connectionString: process.env.DATABASE_URL,
+         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,*/
+         connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
     })
 
     await client.connect();

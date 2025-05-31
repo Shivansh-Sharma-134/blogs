@@ -21,17 +21,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 const appController = require("./controllers/appcontroller");
 const blogsRouter = require("./Routers/blogsRouter");
-
+const bcrypt = require('bcryptjs');
 app.set('views',path.join(__dirname,"views"));
 app.set("view engine","ejs");
 
-//app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
 
-app.use(session({ store: new pgSession({
+/*app.use(session({ store: new pgSession({
     pool: pool,
     tableName: 'session'
 }), secret: process.env.SECRET, resave: false, saveUninitialized: false, cookie: {
-    maxAge: 1000 * 60 * 60 * 24} }));
+    maxAge: 1000 * 60 * 60 * 24} }));*/
 app.use(passport.session());
 
 passport.use(
@@ -40,7 +40,8 @@ passport.use(
         if(!user){
             return done(null, false,{message:"Incorrect username"});
         }
-        if(user.password !== password){
+        const match = bcrypt.compare(password,user.password)
+        if(!match){
             return done(null,false,{message:"Incorrect password"})
         }
         return done(null,user);

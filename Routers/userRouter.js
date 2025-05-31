@@ -24,10 +24,9 @@ const validateMembership =[
 const validateAdmin =[
     body("adminCode").equals(process.env.ADMIN).withMessage("Wrong Passcode")
 ]
-userRouter.get("/signup",appController.signupForm);
+
 userRouter.post("/signup",validateInfo,appController.addUser);
 
-userRouter.get("/login",appController.logInForm)
 userRouter.post("/login",validateLogIn,appController.logIn)
 userRouter.get("/logout", (req, res, next) => {
   req.logout((err) => {
@@ -38,15 +37,10 @@ userRouter.get("/logout", (req, res, next) => {
   });
 });
 
-
-userRouter.get("/profile", appController.profile);
 userRouter.delete("/deleteprofile", appController.deleteProfile);
 
-userRouter.get("/membershipapply", appController.applyMembership);
 userRouter.post("/membershipapply",validateMembership,appController.membershipCheck )
 
-userRouter.get("/adminapply", appController.applyAdmin);
-userRouter.post("/adminapply",validateAdmin,appController.adminCheck )
 
 
 module.exports= userRouter;

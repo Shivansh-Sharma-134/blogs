@@ -21,7 +21,14 @@ title VARCHAR(255) NOT NULL,
 text VARCHAR(500) NOT NULL,
 userid INT,
 created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (userid) REFERENCES users(id)
+likes INTEGER NOT NULL DEFAULT 0;
+FOREIGN KEY (userid) REFERENCES users(id),
+);
+
+CREATE TABLE IF NOT EXISTS likes (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  userid INT,
+  blogid INT
 );
 
 CREATE TABLE IF NOT EXISTS session (
@@ -34,21 +41,15 @@ CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON session (expire);
 `;
 
 const DEV = `
-ALTER TABLE blogs ADD COLUMN likes INTEGER NOT NULL DEFAULT 0;  
 
-CREATE TABLE likes (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  userid INT,
-  blogid INT
-)
 `;
 
 async function main() {
     console.log("seeding")
     const client= new Client({
-         connectionString: process.env.DATABASE_URL,
-         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-         //connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
+         /*connectionString: process.env.DATABASE_URL,
+         ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,*/
+         connectionString: "postgresql://shivadmin:master@localhost:5432/blogsapp"
     })
 
     await client.connect();

@@ -2,6 +2,7 @@ const { title } = require("process");
 const db = require("../data/queries");
 const {validationResult} = require("express-validator");
 const passport = require("passport");
+const bcrypt = require('bcryptjs');
 
 /*async function renderHomepage(req,res) {
     const blogs = await db.getAllBlogs();
@@ -32,12 +33,6 @@ async function renderHomepage(req,res) {
 }
 }
 
-async function signupForm(req,res) {
-    res.render("sign-up-form",{title: "sign up form",
-        old:{},
-        errors:{}
-    });
-}
 
 async function addUser(req,res) {
     const errors = validationResult(req);
@@ -55,17 +50,10 @@ async function addUser(req,res) {
         })
     }
     const {firstname,lastname,username,email,password,age} = req.body
-
-    await db.addUser(firstname,lastname,username,email,password,age);
+    const hashedPassword = await bcrypt.hash(password,10);
+    await db.addUser(firstname,lastname,username,email,hashedPassword,age);
 
     res.json({success: true});
-}
-
-async function logInForm(req,res) {
-    res.render("log-in-form",{title: "Log in form",
-        old:{},
-        errors:{}
-    })
 }
 
 async function logIn(req,res,next) {
@@ -96,21 +84,6 @@ async function logIn(req,res,next) {
     })(req,res,next)
 };
 
-
-async function profile(req,res) {
-    const blogs = await db.getBlogsByUser(req.user.id)
-    
-    res.render("profile",{title:"user profile",user: req.user,blogs})
-}
-
-async function applyMembership(req,res) {
-    res.render("membershipForm",{
-        title: "membership Form",
-        old:{},
-        errors:{}
-    });
-}
-
 async function membershipCheck(req,res) {
         const errors = validationResult(req);
 
@@ -131,38 +104,6 @@ async function membershipCheck(req,res) {
     res.json({success: true})
 }
 
-
-
-async function applyAdmin(req,res) {
-    res.render("adminForm",{
-        title: "Admin Form",
-        old:{},
-        errors:{}
-    });
-}
-
-async function adminCheck(req,res) {
-        const errors = validationResult(req);
-
-    if(!errors.isEmpty()){
-        const errArray = errors.array();
-        const errorMap = {}
-        errArray.forEach(err => {
-            errorMap[err.path] = err.msg;
-        })
-        console.log(errorMap);
-        
-        return res.status(400).render("adminForm",{
-            title: "Admin Form",
-            errors: errorMap,
-            old: req.body
-        })
-    }
-
-    await db.changeAdmin(req.user.id);
-    res.redirect("/users/profile")
-}
-
 async function deleteProfile(req,res,next) {
     const userid = req.user.id;
     try{
@@ -180,14 +121,8 @@ async function deleteProfile(req,res,next) {
 
 module.exports={
     renderHomepage,
-    signupForm,
     addUser,
-    logInForm,
     logIn,
-    profile,
-    applyMembership,
     membershipCheck,
-    applyAdmin,
-    adminCheck,
     deleteProfile,
 }

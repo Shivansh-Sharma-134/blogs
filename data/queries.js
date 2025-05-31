@@ -34,10 +34,6 @@ async function changeMembership(id) {
     await pool.query("UPDATE users SET membership = true WHERE id = $1",[id])
 }
 
-async function changeAdmin(id) {
-    await pool.query("UPDATE users SET admin = true WHERE id = $1",[id])
-}
-
 async function addNewBlog(title,text,userid) {
     await pool.query("INSERT INTO blogs (title,text,userid) VALUES ($1,$2,$3)",[title,text,userid]);
 }
@@ -89,7 +85,6 @@ module.exports ={
     getAllUsers,
     getBlogsByUser,
     changeMembership,
-    changeAdmin,
     addNewBlog,
     deleteBlog,
     addLike,

@@ -3,7 +3,7 @@ const db = require("../data/queries");
 const {validationResult} = require("express-validator");
 const passport = require("passport");
 const bcrypt = require('bcryptjs');
-
+const {generateToken} = require('../utils/jwt')
 async function renderHomepage(req,res) {
    try{
      const blogs = await db.getAllBlogs();
@@ -45,7 +45,7 @@ async function addUser(req,res) {
     res.json({success: true});
 }
 
-async function logIn(req,res,next) {
+async function logIn(req,res) {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -61,16 +61,20 @@ async function logIn(req,res,next) {
         })
     }
     
-    passport.authenticate("local",(err,user,info)=>{
-        if(err || !user){
-            return res.status(500).json({errors:{form:"invalid credentials"}});
-        }
-        req.login(user,err =>{
-            if (err) return res.status(500).json({ errors: { form: "Login error" } });
-            return res.json({ success: true });
-        });
+     const { username, password } = req.body;
+     const user = await db.getUserByUsername(username);
+     if(!user) return res.status('401').json({message: "user not found"});
+     const match = await bcrypt.compare(password,user.password);    
+     if(!match) return res.status('401').json({message: "invalid credentials"});
 
-    })(req,res,next)
+    const token = generateToken(user);
+
+    res.cookie("token",token,{
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    }).json({success : true})
+
 };
 
 async function membershipCheck(req,res) {

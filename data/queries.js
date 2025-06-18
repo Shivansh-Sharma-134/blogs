@@ -25,6 +25,11 @@ async function getUserById(id) {
     return rows[0];
 }
 
+async function getUserByUsername(username) {
+    const {rows} = await pool.query("SELECT * FROM users WHERE username = $1",[username]);
+    return rows[0];
+}
+
 async function getBlogsByUser(id) {
     const {rows} = await pool.query("SELECT * FROM blogs WHERE userid = $1 ORDER BY id ASC",[id]);
     return rows;
@@ -91,4 +96,5 @@ module.exports ={
     getAllLikes,
     removeLike,
     deleteProfile,
+    getUserByUsername,
 }

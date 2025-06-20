@@ -53,7 +53,7 @@ async function main() {
     })
 
     await client.connect();
-    await client.query(dev);
+    await client.query(DEV);
     await client.end();
     console.log('done')
 }

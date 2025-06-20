@@ -9,7 +9,6 @@ async function renderHomepage(req,res) {
      const blogs = await db.getAllBlogs();
     const users = await db.getAllUsers();
     const likes = await db.getAllLikes();
-    console.log(blogs,users,likes);
     
     res.json({
         user:req.user || null,
@@ -63,9 +62,9 @@ async function logIn(req,res) {
     
      const { username, password } = req.body;
      const user = await db.getUserByUsername(username);
-     if(!user) return res.status('401').json({message: "user not found"});
+     if(!user) return res.status(401).json({message: "user not found"});
      const match = await bcrypt.compare(password,user.password);    
-     if(!match) return res.status('401').json({message: "invalid credentials"});
+     if(!match) return res.status(401).json({message: "invalid credentials"});
 
     const token = generateToken(user);
 

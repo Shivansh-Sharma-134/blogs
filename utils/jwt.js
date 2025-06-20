@@ -11,7 +11,7 @@ function generateToken(user){
 
 function authenticateJWT(req,res,next){
     const token = req.cookies?.token || req.header.authorization?.split(' ')[1];
-    if(!token) return res.status('401').json({message: 'no token provided'});
+    if(!token) return res.status(401).json({message: 'no token provided'});
     try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
     req.user = user;

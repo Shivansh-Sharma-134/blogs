@@ -2,6 +2,7 @@ const { Router } = require("express");
 const userRouter = Router();
 const appController = require("../controllers/appcontroller");
 const { body, validationResult } = require("express-validator");
+const {authenticateJWT} = require('../utils/jwt')
 
 const validateInfo = [
     body("firstname").trim().isAlpha().withMessage('must be letters').isLength({min: 1,max: 50}).withMessage('must be within 1 to 50 characters'),
@@ -29,17 +30,12 @@ userRouter.post("/signup",validateInfo,appController.addUser);
 
 userRouter.post("/login",validateLogIn,appController.logIn)
 userRouter.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.json({success: true});
-  });
+  res.clearCookie('token').json({success: true});
 });
 
-userRouter.delete("/deleteprofile", appController.deleteProfile);
+userRouter.delete("/deleteprofile",authenticateJWT, appController.deleteProfile);
 
-userRouter.post("/membershipapply",validateMembership,appController.membershipCheck )
+userRouter.post("/membershipapply",authenticateJWT,validateMembership,appController.membershipCheck )
 
 
 

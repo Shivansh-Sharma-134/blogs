@@ -7,7 +7,7 @@ require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const cookieParser = require('cookie-parser')
-
+const {authenticateJWT} = require('./utils/jwt')
 app.use(cors({
     origin: process.env.ORIGIN,
     credentials: true,
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(passport.session());*/
 
 
-app.get("/api/homepage",appController.renderHomepage);
+app.get("/api/homepage",authenticateJWT,appController.renderHomepage);
 app.use("/api/users",userRouter);
 app.use("/api/blogs",blogsRouter)
 

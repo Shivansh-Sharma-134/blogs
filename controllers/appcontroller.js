@@ -9,7 +9,7 @@ async function renderHomepage(req,res) {
      const blogs = await db.getAllBlogs();
     const users = await db.getAllUsers();
     const likes = await db.getAllLikes();
-    
+    console.log("req user", req.user)
     res.json({
         user:req.user || null,
         blogs,

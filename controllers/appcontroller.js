@@ -1,7 +1,6 @@
-const { title } = require("process");
 const db = require("../data/queries");
 const {validationResult} = require("express-validator");
-const passport = require("passport");
+
 const bcrypt = require('bcryptjs');
 const {generateToken} = require('../utils/jwt')
 async function renderHomepage(req,res) {

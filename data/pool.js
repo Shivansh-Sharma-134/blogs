@@ -1,4 +1,4 @@
-require("dotenv").config();
+/*require("dotenv").config();
 const {Pool} = require("pg");
 module.exports = new Pool({
     host: "localhost", 
@@ -6,11 +6,11 @@ module.exports = new Pool({
     database: "blogsapp",
     password: process.env.DB_PASSWORD,
     port: 5432 
-  });
+  });*/
 
 
 
-/*require("dotenv").config();
+require("dotenv").config();
 const {Pool} = require("pg");
 module.exports = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -18,4 +18,4 @@ module.exports = new Pool({
 
       rejectUnauthorized: false
     },
-  });*/
+  });

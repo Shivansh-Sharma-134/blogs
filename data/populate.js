@@ -30,14 +30,6 @@ CREATE TABLE IF NOT EXISTS likes (
   userid INT,
   blogid INT
 );
-
-CREATE TABLE IF NOT EXISTS session (
-  sid VARCHAR(255) NOT NULL PRIMARY KEY,
-  sess JSON NOT NULL,
-  expire TIMESTAMP NOT NULL
-);
-
-CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON session (expire);
 `;
 
 const DEV = `
@@ -53,7 +45,7 @@ async function main() {
     })
 
     await client.connect();
-    await client.query(DEV);
+    await client.query(SQL);
     await client.end();
     console.log('done')
 }
